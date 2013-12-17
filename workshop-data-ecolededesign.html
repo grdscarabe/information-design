@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Workshop «Information Design» -- École de Design</title>
+		<meta name="author" content="Fabien Poulard">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="./reveal.js-2.5.0/css/reveal.min.css">
+		<link rel="stylesheet" href="./reveal.js-2.5.0/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="./reveal.js-2.5.0/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="./reveal.js-2.5.0/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="./reveal.js-2.5.0/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+<!--
+L'objectif du cours est de donner aux étudiants de l'Ecole de Design les connaissances théoriques et les quelques outils nécessaires à une appréhension correcte des données à des fins de visualiation, d'exploration voir même d'analyse et d'interprétation.
+
+A l'issue de ce cours, les étudiants devraient :
+Connaître et différencier les différents types de mesures : nominale,  ordinale, intervalle, ratio ; opérer des comparaisons raisonnées (comparabilité).
+Appréhender les bases de la statistique descriptive (moyenne, variance, écart type) avec un tableur et avec R.
+Manipuler les formats de stockage, opérer des conversions ou des fusions (ETL)  Savoir tester la qualité d'un jeu avec des techniques de validation (expressions régulières...) ou par exploration (histogrammes...).
+Chercher (open data directory, google public sourceset, ...), nettoyer (open refine), réconcilier (freebase & co), fusionner (ETL) des jeux de données pour les travailler
+-->
+
+<section>
+	<h2>Information Design</h2>
+	<p>
+		<small>Par <a href="http://www.fabienpoulard.info">Fabien Poulard</a> / <a href="http://twitter.com/grdscarabe">@grdscarabe</a> / <a href="http://www.dictanova.com">Dictanova</a></small>
+	</p>
+	<p>
+		<small>École de Design -- «Information Design»</small>
+	</p>
+</section>
+
+<!-- INTRO -->
+<section>
+	<section>
+		<h2>Information <s>Design</s> ?</h2>
+		<p>verbe latin <i>informare</i> qui signifie <q>donner forme à</q></p>
+	</section>
+
+	<section>
+		<h2>Information <s>Design</s> ?</h2>
+		<p>une grandeur observable et mesurable en bits (Shannon, 1948)</p>
+		<p>un équilibre en «redondance» (le surplus) et «bruit» (preturbations)</p>
+	</section>
+
+	<section>
+		<h3>Des données à l'information</h3>
+		<p>Les données ne parlent pas d'elles-mêmes : il faut les faire parler</p>
+		<ol>
+			<li>Compiler</li>
+			<li>Raffiner</li>
+			<li>Exposer</li>
+			<li>Comparer</li>
+		</ol>
+		<p class="fragment roll-in">... pour comprendre et informer !</p>
+	</section>
+
+	<!--
+	<section>
+		<h3>Proposition de plan</h3>
+		<ol>
+			<li>Compiler : données, formats, transformations</li>
+			<li>Raffiner: vérifier, traiter</li>
+			<li>Exposer: types de visualisations</li>
+			<li>Exposer: types de visualisations</li>
+		</ol>
+	</section>
+	-->
+</section>
+
+	<!--
+	<section>
+		<iframe src="http://www.slideshare.net/slideshow/embed_code/12178441" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://fr.slideshare.net/Dataveyes/wud-dataviz-ux-par-caroline-goulard-dataveyes-12178441" title="#Wud : dataviz &amp; UX par Caroline Goulard (Dataveyes)" target="_blank">#Wud : dataviz &amp; UX par Caroline Goulard (Dataveyes)</a> </strong> from <strong><a href="http://www.slideshare.net/Dataveyes" target="_blank">Dataveyes</a></strong> </div>
+	</section>
+	-->
+
+<!-- DONNÉES : TYPES DE VALEURS -->
+<section>
+	<section>
+		<h2>Données : Types de valeurs</h2>
+		<p>Toutes les valeurs ne sont pas équivalentes et ne permettent pas les mêmes calculs :</p>
+		<ul>
+			<li>Nominale</li>
+			<li>Ordinale</li>
+			<li>Intervalle</li>
+			<li>Ratio</li>
+		</ul>
+	</section>
+
+	<section>
+		<h3>Valeurs nominales</h3>
+		<p>étiquetage des données, uniquement utilisé pour identifier des catégories, pas possible de faire quoi que ce soit comme opération algébrique sur ce genre de données</p>
+		<div class="fragment roll-in">
+		<p>Exemples :</p>
+		<ul>
+			<li>homme/femme</li>
+			<li>assis à gauche/droite</li>
+			<li>couleur de cheveux</li>
+			<li>numéro de maillot d'un joueur</li>
+		</ul>
+		</div>
+	</section>
+
+	<section>
+		<h3>Valeurs ordinales</h3>
+		<p>notion d'ordre entre les scores (performance) mais pas de notion de distance, possibilité d'utiliser max/min/supérieur/inférieur/...</p>
+		<div class="fragment roll-in">
+		<p>Exemples :</p>
+		<ul>
+			<li>ordre d'entrée dans la salle</li>
+			<li>ordre alphabétique des prénoms/noms</li>
+			<li>classement scolaire</li>
+		</ul>
+		</div>
+	</section>
+
+	<section>
+		<h3>Valeurs intervalles</h3>
+		<p>distance entre les éléments sont équivalents mais "pas de zéro" donc rapports non comparables (), possibilité de faire des moyennes et des variances</p>
+		<div class="fragment roll-in">
+		<p>Exemples :</p>
+		<ul>
+			<li>heure de l'entrée dans la salle</li>
+			<li>QI</li>
+			<li>notes A/B/C/...</li>
+			<li>température</li>
+		</ul>
+		</div>
+	</section>
+
+	<section>
+		<h3>Valeurs ratio</h3>
+		<p>données proportionnelles car utilisation d'un véritable zéro (pas de négatif possible)</p>
+		<div class="fragment roll-in">
+		<p>Exemples :</p>
+		<ul>
+			<li>taille</li>
+			<li>poids</li>
+			<li>age</li>
+		</ul>
+		</div>
+	</section>
+
+	<section>
+		<h4>Exercice pratique</h4>
+		<p>Qualifier ces données :</p>
+		<ul>
+			<li><a href="http://www.info.univ-angers.fr/~gh/Datasets/titanic.htm">Passagers du Titanic</a></li>
+			<li><a href="http://education.data.gov.uk/">Opendata britannique sur l'enseignement</a></li>
+		</ul>
+	</section>
+</section>
+
+<!-- DONNÉES : QUALITÉ-->
+<section>
+	<section>
+		<h2>Qualité des données</h2>
+		<ul>
+			<li>Complétude</li>
+			<li>Consistence</li>
+			<li>Précision</li>
+			<li>Pertinence</li>
+			<li>Accessibilité</li>
+			<li>Intégrité</li>
+		</ul>
+	</section>
+
+	<section>
+		<h3>Complétude</h3>
+		<p>Est-ce que toutes les donnés pertinentes sont présentes ?</p>
+	</section>
+
+	<section>
+		<h3>Consistence</h3>
+		<p>Est-ce que les donnés sont dans le même format ?</p>
+	</section>
+
+	<section>
+		<h3>Précision</h3>
+		<p>Est-ce que les donnés sont correctes ?</p>
+	</section>
+
+	<section>
+		<h3>Pertinence</h3>
+		<p>Est-ce que les donnés sont utiles ?</p>
+	</section>
+
+	<section>
+		<h3>Accessibilité</h3>
+		<p>Est-ce que les donnés sont accessibles quand c'est nécessaire ?</p>
+	</section>
+
+	<section>
+		<h3>Intégrité</h3>
+		<p>Est-ce que les données restent cohérentes lorsqu'elles sont dupliquées ?</p>
+	</section>
+
+	<section>
+		<h2>Gestion de la qualité des données</h2>
+		<p>Cercle d'amélioration continue :</p>
+		<ol>
+			<li><i>Profiling</i> des données</li>
+			<li>Nettoyage (<i>data cleansing</i>, prévention de la détérioration, identification des imperfections)</li>
+			<li>Mesure de la qualité</li>
+		</ol>
+	</section>
+
+	<section>
+		<h3>Profilage des données</h3>
+		<ul>
+			<li>Reconstruction de l'ensemble des traits qui caractérisent les données</li>
+			<li>Application de techniques analytiques pour déterminer :
+				<ul>
+					<li>le Contenu</li>
+					<li>la Structure</li>
+					<li>la Qualité</li>
+				</ul>
+			</li>
+			<li>Découverte vs. Attentes</li>
+	</section>
+
+	<section>
+		<h3>Nettoyage des données</h3>
+		<ul>
+			<li>Normalisation</li>
+			<li>Dédoublonnage</li>
+			<li>Parsing et standardisation</li>
+			<li>Enrichissement</li>
+	</section>
+</section>
+
+<!-- DONNÉES : FORMATS -->
+<section>
+	<section>
+		<h2>Données : Formats</h2>
+	</section>
+</section>
+
+<!-- DONNÉES : EXPLORATION -->
+<section>
+	<section>
+		<h2>Exploration statistique</h2>
+		<p>La statistique descriptive regroupe l'ensemble des techniques utilisées pour décrire numériquement les populations.</p>
+	</section>
+
+	<section>
+		<h3>Terminologie</h3>
+		<ul>
+			<li><b>individu :</b> élément d'un ensemble représenté par ses caractéristiques étudiées</li>
+			<li><b>population :</b> l'ensemble des <b>N</b> individus qui nous intéressent, de très grande taille voir même infinie</li>
+			<li><b>observation</b>, <b>variable</b>, <b>score</b> ou <b>valeur :</b> information dont on recueille/observe/mesure la valeur sur chaque individu
+		</ul>
+	</section>
+
+	<section>
+		<h3>Les outils classiques</h3>
+		<ul>
+			<li><b>Moyenne</b> moyenne algébrique d'un groupe de scores (addition des scores et division par le nombre)</li>
+			<li><b>Variance</b> moyenne des distances à la moyenne</li>
+			<li><b>Écart type</b> racine carré de la variance (<i>standard deviation</i>)</li>
+		</ul>
+	</section>
+
+	<section>
+		<h3>Les outils classiques / Exercice</h3>
+		<pre><code data-trim contenteditable>
+# Installation et utilisation de UsingR
+install.packages("UsingR")
+library(UsingR)
+data(cfb)
+# ?cfb
+
+# Moyenne
+mean(cfb$INCOME)
+
+# Variance
+var(cfb$INCOME)
+
+# Ecart type
+sd(cfb$INCOME)
+sqrt(var(cfb$INCOME))
+		</code></pre>
+	</section>
+
+	<section>
+		<h3>Boîte à moustache</h3>
+		<p>Résume quelques caractéristiques d'une variable : médiane, 1er et 3e quartiles, minimum, maximum</p>
+		<p>Principalement utilisé pour comparer deux distributions.</p>
+	</section>
+
+	<section>
+		<h3>Boîte à moustache / Exercice</h3>
+		<p>Dans R : revenu par niveau d'éducation</p>
+		<pre><code data-trim contenteditable>
+# INCOME vs. EDUC
+plot(cfb$INCOME~cfb$EDUC)
+abline(lm(cfb$INCOME~cfb$EDUC))
+
+# outliers ?
+boxplot(cfb$INCOME~cfb$EDUC, xlab='educ level', ylab='income')
+		</code></pre>
+
+		<img src="images/boxplot-cfb_income_educ.png" class="fragment roll-in" />
+
+	</section>
+
+	<section>
+		<h3>Histogrammes</h3>
+		<p>Histogrammes division de l'espace des scores (classique) et dénombrement des individus division de la population (déciles) et hauteur=score du décile</p>
+		<ul>
+			<li><b>Médiane</b> scores séparant 50% de la population (précision ? existance ?)</li>
+			<li><b>Décile</b> médiane est un cas particulier du décile pour 50%, déciles 10%-20%...</li>
+		</ul>
+	</section>
+
+	<section>
+		<h3>Histogrammes / Exercice</h3>
+		<pre><code data-trim contenteditable>
+# Histogramme des revenus
+hist(cfb$INCOME)
+
+# Utilisation des centiles
+hist(cfb$INCOME, freq=TRUE, breaks=100, col="lightblue")
+		</code></pre>
+
+		<img src="images/hist-cfb_income.png" class="fragment roll-in" />
+
+	</section>
+
+	<section>
+		<h3>Moyenne vs Médiane ?</h3>
+		<p>prototype vs. stéréotype</p>
+	</section>
+
+</section>
+
+<!-- RISQUES -->
+<section>
+	<section>
+		<h2>Risques de l'analyse statistique</h2>
+		<p>2 risques principaux :</p>
+		<ol>
+			<li>Découvrir une relation qui n'existe <b>que</b> dans la population observée : problème de représentativité</li>
+			<li>Ne pas découvrir dans la population observée une relation qui existe : puissance (<i>power</i>) trop faible</li>
+		</ol>
+		<p>puissance = probabilité de trouver la relation dans la population observée si elle existe dans la population globale</p>
+	</section>
+
+	<section>
+		<h3>Approximation</h3>
+		<p>Attentes :</p>
+		<ul>
+			<li>validité = valeur du score représente correctement le trait mesuré</li>
+			<li>confiance = stabilité des scores lors des répétitions des mesures</li>
+		</ul>
+	</section>
+
+	<section>
+		<h3>Approximation</h3>
+		<p>Modèle :</p>
+		<ul>
+			<li>score observé = score réel + erreur</li>
+			<li>Hypothèse : erreur est aléatoire et distribuée selon distribution normale -> 95% population contenu dans 1.96xecart type</li>
+		</ul>
+		<p>Propriétés :</p>
+		<ul>
+			<li>moyenne des moyennes des sous-populations est égale à la moyenne de la population globale</li>
+			<li><i>standard error of measurement</i> = ecart type x sqrt(1-confiance) (random observations)</li>
+		</ul>
+	</section>
+
+	<section>
+		<h3>Statistiques / Exercice</h3>
+		<p>Lancé de dé (ou deviner le chiffre compté par un camarade modulo 6) en groupes et vérification des erreurs sachant que le véritable résultat est connu pour la moyenne</p>
+	</section>
+</section>
+
+<!-- EXERCICE AVEC R -->
+<section>
+	<section>
+		<h2>Exploration des données sur la PAC avec R</h2>
+		<p>En cas de doute sur une fonction de R : faites appel à l'aide interactive</p>
+		<pre><code data-trim contenteditable>
+help(read.table)
+		</code></pre>
+	</section>
+
+	<section>
+		<h3>Chargement</h3>
+		<pre><code data-trim contenteditable>
+# Chargement du contenu
+> pac <- read.table("data/PAC_2012-exportcsv.csv", sep=",", quote="\"", header=TRUE)
+
+# Nom des colonnes
+> names(pac)
+[1] "Nom...Raison.sociale"                      
+[2] "Commune"                                   
+[3] "Code.postal"                               
+[4] "Paiements.directs.aux.agriculteurs..Feaga."
+[5] "Autres.paiements.Feaga"                    
+[6] "Paiements.Feader..hors.pr.ts.bonifi.s."    
+[7] "Paiements.pr.ts.bonifi.s..Feader."         
+[8] "Montant.total"
+
+# Dimensions
+> dim(pac)
+[1] 7079    8
+		</code></pre>
+		</small>
+	</section>
+
+
+	<section>
+		<h3>Accès aux valeurs</h3>
+		<pre><code data-trim contenteditable>
+# 1er individu
+pac[1,]
+
+# Montant total des 10 premiers individus
+pac$Montant.total[1:10]
+# ou
+pac[1:10,8]
+		</code></pre>
+	</section>
+
+	<section>
+		<h3>Statistiques</h3>
+		<pre><code data-trim contenteditable>
+# Extremum
+min(pac$Montant.total)
+max(pac$Montant.total)
+
+# Moyenne, variance et écart type
+mean(pac$Montant.total)
+var(pac$Montant.total)
+sd(pac$Montant.total)
+		</code></pre>
+	</section>
+
+	<section>
+		<h3>Médiane et quantiles</h3>
+		<pre><code data-trim contenteditable>
+# Médiane
+median(pac$Montant.total)
+
+# Quartiles
+quantile(pac$Montant.total, probs=seq(0,1, by=0.25))
+
+# Déciles
+quantile(pac$Montant.total, probs=seq(0,1, by=0.1))
+		</code></pre>
+	</section>
+
+	<section>
+		<h3>Quel individu pour cette valeur ?</h3>
+		<pre><code data-trim contenteditable>
+# Quel(s) individu(s) ont la valeur médiane
+idx <- which(pac$Montant.total==median(pac$Montant.total))
+pac[idx,]
+
+# ou
+pac[which(pac$Montant.total==median(pac$Montant.total)),]
+
+# Quels individus dans 10% plus élevés
+centiles <- quantile(pac$Montant.total, probs=seq(0,1, by=0.01))
+pac[which(pac$Montant.total>centiles[100]),]
+		</code></pre>
+	</section>
+
+	<section>
+		<h3>Sélection</h3>
+		<pre><code data-trim contenteditable>
+# Exploitations de la commune de Saint Marie
+subset(pac, pac$Commune=="SAINT MARIE")
+# ou
+pac[which(pac$Commune=="SAINT MARIE"), ]
+
+# Combien d'exploitations en Vendée
+# utilisation de la division entière sur les codes postaux
+dim(subset(pac, pac$Code.postal%/%1000==85))
+# ou
+dim(pac[which(pac$Code.postal>=85000 & pac$Code.postal<86000),])
+
+# Montant total moyen pour les exploitations Vendéennes
+mean(pac[which(pac$Code.postal>=85000 & pac$Code.postal<86000),8])
+		</code></pre>
+	</section>
+
+	<section>
+		<h3>Calculs de densité</h3>
+		<pre><code data-trim contenteditable>
+# Calcul des départements
+pac$Dpt <- pac$Code.postal%/%1000
+
+# Nombre de subventions par département
+plot(table(pac$Dpt))
+
+# Densité des subventions par département
+plot(density(pac$Dpt))
+		</code></pre>
+	</section>
+
+	<section>
+		<h3>Exporter le graphe en pdf</h3>
+		<pre><code data-trim contenteditable>
+pdf("mon-graph.pdf")
+hist(pac$Montant.total)
+dev.off()
+		</code></pre>
+	</section>
+
+</section>
+
+<!-- REFINE -->
+<section>
+	<section>
+		<h2>Nettoyage et consolidation des données</h2>
+		<a href="http://openrefine.org/download.html">Téléchargement d'OpenRefine</a>
+	</section>
+
+	<section>
+		<h3>Correction des noms de commune</h3>
+		<ol>
+			<li>Cliquer sur l'en-tête de la colonne <i>Commune</i></li>
+			<li>Edit column &gt; Add column based on this column</li>
+			<li>Entrer le code suivant :
+				<pre><code data-trim contenteditable>
+value.replace(/CEDEX( \d+)?/, "")
+				</code></pre>
+			</li>
+		</ol>
+	</section>
+
+	<section>
+		<h3>Géolocalisation</h3>
+		<ol>
+			<li>Cliquer sur l'en-tête de la colonne <i>Code postal</i></li>
+			<li>Edit column &gt; Add column by fetching URLs...</li>
+			<li>Construction de l'URL :
+				<pre><code data-trim contenteditable>
+"http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address="+value+",FR"
+# ou
+"http://maps.googleapis.com/maps/api/geocode/json?sensor=false&components=postal_code:"+value+"|country:fr"
+				</code></pre>
+			</li>
+			<!-- return "%05d"%value -->
+			<li>Extraction des coordonnées : Add column based on this column
+				<pre><code data-trim contenteditable>
+				</code></pre>
+			</li>
+		</ol>
+	</section>
+</section>
+
+<!-- DATAVIZ -->
+<section>
+	<section>
+		<h2>Dataviz</h2>
+		<ul>
+			<li>Pas une illustration : la visualisation doit se suffire à elle-même</li>
+			<li>Aimer la simplicité et viser tous types de publics</li>
+			<li>Imposer une hiérarchie/catégorie/structure pour faciliter la prise en main</li>
+			<li>Ne pas négliger le côté narratif qui raconte les données afin d'accrocher le lecteur</li>
+			<li>Comprendre les biais de son audience (déjouer les biais)</li>
+		</ul>
+		<p>Visualisation de données = s'appuyer sur l'intelligence visuelle != <s>illustrer des données</s></p>
+		</ul>
+	</section>
+</section>
+
+<!-- DONNÉES : EXPLORATION VISUELLE -->
+<section>
+	<section>
+		<h2>Intelligence visuelle</h2>
+La rigueur de la représentation visuelle : Edward Tufte
+	</section>
+
+	<section>
+		<h3>Variables visuelles</h3>
+		<a href="http://www.infovis-wiki.net/index.php?title=Visual_Variables">
+			<img src="images/VisualVariables.png" />
+		</a>
+	</section>
+
+	<section>
+		<h3>Variables visuelles : adéquation par tâches</h3>
+		<a href="http://www.infovis-wiki.net/index.php?title=Visual_Variables">
+			<img src="images/Mackinlay_PerceptualTask.jpg" />
+		</a>
+	</section>
+
+	<section>
+		<h3>Variables visuelles : dynamique</h3>
+		<p>La dimension temporelle est une <a href="http://en.wikipedia.org/wiki/Animated_mapping#Visual_variables">variable visuelle de plus</a> lorsque la visualisation est dynamique.</p>
+		<p>Modifications possibles :</p>
+		<ul>
+			<li>direction</li>
+			<li>vitesse</li>
+			<li>fréquence</li>
+			<li>rhythme</li>
+			<li>scintillement</li>
+			<li>traînées</li>
+		</ul>
+	</section>
+
+	<section>
+		<iframe src="http://embed.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen.html" width="853" height="480" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+	</section>
+
+	<section>
+		<h3>Types de visualisation de données</h3>
+		<a href="http://loichay.tumblr.com/post/505282724">
+			<img src="images/dataviz-types.gif"/>
+		</a>
+	</section>	
+</section>
+
+
+				<!--
+				<section>
+					<section>
+						<h3>Références</h3>
+					</section>
+				</section>
+				-->
+
+			</div>
+
+		</div>
+
+		<script src="./reveal.js-2.5.0/lib/js/head.min.js"></script>
+		<script src="./reveal.js-2.5.0/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: './reveal.js-2.5.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: './reveal.js-2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: './reveal.js-2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: './reveal.js-2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: './reveal.js-2.5.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: './reveal.js-2.5.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
