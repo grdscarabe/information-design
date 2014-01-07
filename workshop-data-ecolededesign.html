@@ -571,9 +571,20 @@ value.replace(/CEDEX( \d+)?/, "")
 			<!-- return "%05d"%value -->
 			<li>Extraction des coordonnées : Add column based on this column
 				<pre><code data-trim contenteditable>
+value.parseJson()["results"][0]["address_components"][2]["short_name"]
+value.parseJson()["results"][0]["address_components"][3]["long_name"]
+value.parseJson()["results"][0]["geometry"]["location"]["lng"]
+value.parseJson()["results"][0]["geometry"]["location"]["lat"]
 				</code></pre>
 			</li>
 		</ol>
+	</section>
+
+	<section>
+		<h3>Géolocalisation</h3>
+		<pre><code data-trim contenteditable>
+value.split(" ")[0]
+		</code></pre>
 	</section>
 </section>
 
@@ -640,14 +651,12 @@ La rigueur de la représentation visuelle : Edward Tufte
 	</section>	
 </section>
 
-
-				<!--
-				<section>
-					<section>
-						<h3>Références</h3>
-					</section>
-				</section>
-				-->
+<section>
+	<section>
+		<h3>Ressources</h3>
+		<a href="http://selection.datavisualization.ch/">datavisualization.ch</a>
+	</section>
+</section>
 
 			</div>
 
