@@ -11,15 +11,19 @@ Installer reveal.js dans le répertoire courant (sous-répertoire reveal.js-2.5.
 
 Ouvrir un fichier HTML de cours dans un browser pour visualisation.
 
-Programme du cours
-------------------
+Programme du workshop
+---------------------
 
- - Lundi matin : 9h30-12h30
-   - Inspiration
-   - http://fr.slideshare.net/Dataveyes/wud-dataviz-ux-par-caroline-goulard-dataveyes-12178441 
- - Lundi après-midi :
- - Mardi matin :
- - Mardi après-midi :
- - Mercredi matin :
- - Vendredi après-midi :
+ - J1 : présentation
+   - Théorie de la qualité des données
+   - Un peu de stats
+   - Quelques exemples
+ - J2 : fin présentation
+   - Vidéo de Hans Rosling
+   - Variables visuelles
+   - Présentation de jeu de données
+   - Prise en main du jeu de données
+ - J3 : travail sur les données
+ - J4 : travail sur les données
+ - J5 : restitution
 
