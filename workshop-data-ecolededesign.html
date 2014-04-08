@@ -51,7 +51,8 @@ Chercher (open data directory, google public sourceset, ...), nettoyer (open ref
 		<small>Par <a href="http://www.fabienpoulard.info">Fabien Poulard</a> / <a href="http://twitter.com/grdscarabe">@grdscarabe</a> / <a href="http://www.dictanova.com">Dictanova</a></small>
 	</p>
 	<p>
-		<small>École de Design -- «Information Design»</small>
+		<small>École de Design -- «Information Design»</small><br/>
+		<small>7 au 11 Avril 2014</small>
 	</p>
 </section>
 
@@ -79,37 +80,21 @@ Chercher (open data directory, google public sourceset, ...), nettoyer (open ref
 		</ol>
 		<p class="fragment roll-in">... pour comprendre et informer !</p>
 	</section>
-
-	<!--
-	<section>
-		<h3>Proposition de plan</h3>
-		<ol>
-			<li>Compiler : données, formats, transformations</li>
-			<li>Raffiner: vérifier, traiter</li>
-			<li>Exposer: types de visualisations</li>
-			<li>Exposer: types de visualisations</li>
-		</ol>
-	</section>
-	-->
 </section>
-
-	<!--
-	<section>
-		<iframe src="http://www.slideshare.net/slideshow/embed_code/12178441" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://fr.slideshare.net/Dataveyes/wud-dataviz-ux-par-caroline-goulard-dataveyes-12178441" title="#Wud : dataviz &amp; UX par Caroline Goulard (Dataveyes)" target="_blank">#Wud : dataviz &amp; UX par Caroline Goulard (Dataveyes)</a> </strong> from <strong><a href="http://www.slideshare.net/Dataveyes" target="_blank">Dataveyes</a></strong> </div>
-	</section>
-	-->
 
 <!-- DONNÉES : TYPES DE VALEURS -->
 <section>
 	<section>
 		<h2>Données : Types de valeurs</h2>
-		<p>Toutes les valeurs ne sont pas équivalentes et ne permettent pas les mêmes calculs :</p>
+		<p>Toutes les valeurs ne sont pas équivalentes et ne permettent pas les mêmes calculs et représentations.</p>
+
+		<p class="fragment roll-in">Comment représenter un jeu de données :</p>
 		<ul>
-			<li>Nominale</li>
-			<li>Ordinale</li>
-			<li>Intervalle</li>
-			<li>Ratio</li>
-		</ul>
+			<li class="fragment roll-in">Hommes, Femmes et Enfants</li>
+			<li class="fragment roll-in">Évolution de la température moyenne sur les 2 derniers siècles</li>
+			<li class="fragment roll-in">Podiums aux Jeux Olympiques</li>
+			<li class="fragment roll-in">Mise en perspective du classement d'une promotion avec leur QI et leur âge</li>
+		</ul>	
 	</section>
 
 	<section>
@@ -167,97 +152,34 @@ Chercher (open data directory, google public sourceset, ...), nettoyer (open ref
 	</section>
 
 	<section>
-		<h4>Exercice pratique</h4>
+		<h4>Exercice pratique (1/2)</h4>
 		<p>Qualifier ces données :</p>
-		<ul>
-			<li><a href="http://www.info.univ-angers.fr/~gh/Datasets/titanic.htm">Passagers du Titanic</a></li>
-			<li><a href="http://education.data.gov.uk/">Opendata britannique sur l'enseignement</a></li>
-		</ul>
-	</section>
-</section>
-
-<!-- DONNÉES : QUALITÉ-->
-<section>
-	<section>
-		<h2>Qualité des données</h2>
-		<ul>
-			<li>Complétude</li>
-			<li>Consistence</li>
-			<li>Précision</li>
-			<li>Pertinence</li>
-			<li>Accessibilité</li>
-			<li>Intégrité</li>
-		</ul>
-	</section>
-
-	<section>
-		<h3>Complétude</h3>
-		<p>Est-ce que toutes les donnés pertinentes sont présentes ?</p>
-	</section>
-
-	<section>
-		<h3>Consistence</h3>
-		<p>Est-ce que les donnés sont dans le même format ?</p>
-	</section>
-
-	<section>
-		<h3>Précision</h3>
-		<p>Est-ce que les donnés sont correctes ?</p>
-	</section>
-
-	<section>
-		<h3>Pertinence</h3>
-		<p>Est-ce que les donnés sont utiles ?</p>
-	</section>
-
-	<section>
-		<h3>Accessibilité</h3>
-		<p>Est-ce que les donnés sont accessibles quand c'est nécessaire ?</p>
-	</section>
-
-	<section>
-		<h3>Intégrité</h3>
-		<p>Est-ce que les données restent cohérentes lorsqu'elles sont dupliquées ?</p>
-	</section>
-
-	<section>
-		<h2>Gestion de la qualité des données</h2>
-		<p>Cercle d'amélioration continue :</p>
+		<p><a href="http://www.inatheque.fr/medias/inatheque_fr/publications_evenements/ina_stat/INASTAT_33_Le_Monde_dans_les_JT.pdf">Place du monde dans les JT (INA, pdf)</a></p>
 		<ol>
-			<li><i>Profiling</i> des données</li>
-			<li>Nettoyage (<i>data cleansing</i>, prévention de la détérioration, identification des imperfections)</li>
-			<li>Mesure de la qualité</li>
+			<li class="fragment roll-in">Copier-coller dans tableur</li>
+			<li class="fragment roll-in">Une ligne par entrée en ajoutant une colonne date (Pays, Mentions, Date)</li>
+			<li class="fragment roll-in">Tableau croisé dynamique sur les lignes</li>
+			<li class="fragment roll-in">Sauvegarde au format CSV pour import dans R</li>
 		</ol>
 	</section>
 
 	<section>
-		<h3>Profilage des données</h3>
-		<ul>
-			<li>Reconstruction de l'ensemble des traits qui caractérisent les données</li>
-			<li>Application de techniques analytiques pour déterminer :
-				<ul>
-					<li>le Contenu</li>
-					<li>la Structure</li>
-					<li>la Qualité</li>
-				</ul>
-			</li>
-			<li>Découverte vs. Attentes</li>
-	</section>
-
-	<section>
-		<h3>Nettoyage des données</h3>
-		<ul>
-			<li>Normalisation</li>
-			<li>Dédoublonnage</li>
-			<li>Parsing et standardisation</li>
-			<li>Enrichissement</li>
-	</section>
-</section>
-
-<!-- DONNÉES : FORMATS -->
-<section>
-	<section>
-		<h2>Données : Formats</h2>
+		<h4>Exercice pratique (2/2)</h4>
+		<p>Dans R :</p>
+		<pre><code data-trim contenteditable>
+# Chargement dans R
+JT <- read.table("monde-dans-JT.csv", sep=",", quote="\"", header=TRUE)
+# Accéder à la première cellule
+JT[1,1]
+# Toute la première ligne
+JT[1,]
+# Toute la première colonne
+JT[,1]
+# Moyenne
+mean(as.numeric(JT[1,c(2,3,4,5,6)]))
+# Moyenne des valeurs présentes sur 2009
+mean(JT$X2009[which(!(is.na(JT$X2009)))])
+		</code></pre>
 	</section>
 </section>
 
@@ -359,46 +281,6 @@ hist(cfb$INCOME, freq=TRUE, breaks=100, col="lightblue")
 
 </section>
 
-<!-- RISQUES -->
-<section>
-	<section>
-		<h2>Risques de l'analyse statistique</h2>
-		<p>2 risques principaux :</p>
-		<ol>
-			<li>Découvrir une relation qui n'existe <b>que</b> dans la population observée : problème de représentativité</li>
-			<li>Ne pas découvrir dans la population observée une relation qui existe : puissance (<i>power</i>) trop faible</li>
-		</ol>
-		<p>puissance = probabilité de trouver la relation dans la population observée si elle existe dans la population globale</p>
-	</section>
-
-	<section>
-		<h3>Approximation</h3>
-		<p>Attentes :</p>
-		<ul>
-			<li>validité = valeur du score représente correctement le trait mesuré</li>
-			<li>confiance = stabilité des scores lors des répétitions des mesures</li>
-		</ul>
-	</section>
-
-	<section>
-		<h3>Approximation</h3>
-		<p>Modèle :</p>
-		<ul>
-			<li>score observé = score réel + erreur</li>
-			<li>Hypothèse : erreur est aléatoire et distribuée selon distribution normale -> 95% population contenu dans 1.96xecart type</li>
-		</ul>
-		<p>Propriétés :</p>
-		<ul>
-			<li>moyenne des moyennes des sous-populations est égale à la moyenne de la population globale</li>
-			<li><i>standard error of measurement</i> = ecart type x sqrt(1-confiance) (random observations)</li>
-		</ul>
-	</section>
-
-	<section>
-		<h3>Statistiques / Exercice</h3>
-		<p>Lancé de dé (ou deviner le chiffre compté par un camarade modulo 6) en groupes et vérification des erreurs sachant que le véritable résultat est connu pour la moyenne</p>
-	</section>
-</section>
 
 <!-- EXERCICE AVEC R -->
 <section>
@@ -536,58 +418,6 @@ dev.off()
 
 </section>
 
-<!-- REFINE -->
-<section>
-	<section>
-		<h2>Nettoyage et consolidation des données</h2>
-		<a href="http://openrefine.org/download.html">Téléchargement d'OpenRefine</a>
-	</section>
-
-	<section>
-		<h3>Correction des noms de commune</h3>
-		<ol>
-			<li>Cliquer sur l'en-tête de la colonne <i>Commune</i></li>
-			<li>Edit column &gt; Add column based on this column</li>
-			<li>Entrer le code suivant :
-				<pre><code data-trim contenteditable>
-value.replace(/CEDEX( \d+)?/, "")
-				</code></pre>
-			</li>
-		</ol>
-	</section>
-
-	<section>
-		<h3>Géolocalisation</h3>
-		<ol>
-			<li>Cliquer sur l'en-tête de la colonne <i>Code postal</i></li>
-			<li>Edit column &gt; Add column by fetching URLs...</li>
-			<li>Construction de l'URL :
-				<pre><code data-trim contenteditable>
-"http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address="+value+",FR"
-# ou
-"http://maps.googleapis.com/maps/api/geocode/json?sensor=false&components=postal_code:"+value+"|country:fr"
-				</code></pre>
-			</li>
-			<!-- return "%05d"%value -->
-			<li>Extraction des coordonnées : Add column based on this column
-				<pre><code data-trim contenteditable>
-value.parseJson()["results"][0]["address_components"][2]["short_name"]
-value.parseJson()["results"][0]["address_components"][3]["long_name"]
-value.parseJson()["results"][0]["geometry"]["location"]["lng"]
-value.parseJson()["results"][0]["geometry"]["location"]["lat"]
-				</code></pre>
-			</li>
-		</ol>
-	</section>
-
-	<section>
-		<h3>Géolocalisation</h3>
-		<pre><code data-trim contenteditable>
-value.split(" ")[0]
-		</code></pre>
-	</section>
-</section>
-
 <!-- DATAVIZ -->
 <section>
 	<section>
@@ -602,10 +432,7 @@ value.split(" ")[0]
 		<p>Visualisation de données = s'appuyer sur l'intelligence visuelle != <s>illustrer des données</s></p>
 		</ul>
 	</section>
-</section>
 
-<!-- DONNÉES : EXPLORATION VISUELLE -->
-<section>
 	<section>
 		<h2>Intelligence visuelle</h2>
 La rigueur de la représentation visuelle : Edward Tufte
@@ -648,7 +475,47 @@ La rigueur de la représentation visuelle : Edward Tufte
 		<a href="http://loichay.tumblr.com/post/505282724">
 			<img src="images/dataviz-types.gif"/>
 		</a>
-	</section>	
+	</section>
+
+	<section>
+		<h3>Le rôle de la Mémoire</h3>
+
+		<h4>Mémoire long terme</h4>
+		<p>mémoire basée sur les expériences passées</p>
+		<ul>
+			<li>Arrêt au feu rouge</li>
+			<li>Tables de multiplication</li>
+			<li>Croix en haut à droite pour fermer la fenêtre</li>
+		</ul>
+		<p>Pas de remise en cause sans motivation très précise !</p>
+
+		<h4>Mémoire court terme</h4>
+		<p>mémoire de travail</p>
+		<ul>
+			<li>Nombre dans un tableau</li>
+			<li>N° de quai de mon train à la gare</li>
+		</ul>
+		<p>Maximum 3 slots à la fois !</p>
+	</section>
+	<section>
+		<h3>Variables visuelles et Mémoire de travail</h3>
+		<p><i>Preattentive attributes</i> = caractéristiques perçues par notre cerveau avant même d'en avoir conscience (&lt;10ms)</p>
+		<ul>
+			<li>Formes : Orientation, Longueur, Largeur, Taille, Symbole, Courbure, Ajout de marque, Encadrement</li>
+			<li>Couleurs : Intensité, Saturation</li>
+			<li>Position : Positionnement dans espace 2D</li>
+		</ul>
+		<small>Colin Ware, Director of the Data Visualization Research Lab at the University of New Hampshire</small>
+	</section>
+	<section>
+		<h3>Attributs préattentifs</h3>
+		<p>Seul la position et la taille permettent de percevoir des informations quantitatives avec précision</p>
+		<img src="images/preattentive-attributes-for-quantitative-data.png" />
+		<small>White Paper : Principles of Data Visualization</small>
+	</section>
+	<section>
+		<h3>Gestalt Principles</h3>
+	</section>
 </section>
 
 <section>
