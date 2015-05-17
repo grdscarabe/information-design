@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Workshop «Information Design» -- École de Design</title>
+		<meta name="author" content="Fabien Poulard">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="./reveal.js-3.0.0/css/reveal.css">
+		<link rel="stylesheet" href="./reveal.js-3.0.0/css/theme/black.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="./reveal.js-3.0.0/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js-3.0.0/css/print/pdf.css' : 'reveal.js-3.0.0/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="./reveal.js-3.0.0/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!--
+			L'objectif de ce court workshop est de permettre aux étudiants de comprendre les enjeux de la manipulation des données
+			au travers d'exercices pratiques avec R desquels ils pourront tirer des méthodes réutilisables pour leurs propres projets.
+			-->
+		
+			<div class="slides">
+			
+				<section>
+					<h1>R for dataviz</h1>
+					<h3>head first</h3>
+					<p>
+						<small>By <a href="http://www.fabienpoulard.info">Fabien Poulard</a> / <a href="http://twitter.com/grdscarabe">@grdscarabe</a> / <a href="http://www.dictanova.com">Dictanova</a></small>
+					</p>
+					<p>
+						<small>École de Design -- v3.0</small>
+					</p>
+				</section>
+			
+				<section>
+					<section>
+						<h2>In this course</h2>
+						<ul>
+							<li>All data are not equal</li>
+							<li>Format is never right</li>
+							<li>Data is dirty: check for errors</li>
+							<li>Information is revealed, it does not pop up</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Not in this course</h2>
+						<ul>
+							<li>ETL (Extract, Transform, Load)</li>
+							<li>Data quality processes</li>
+							<li>Data visualization theory</li>
+							<li>Advanced data manipulation</li>
+							<li>Advanced statistics and probabilities</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>All data are not equal</h1>
+						<p>Don't try to add cats and dogs</p>
+						<img src="http://www.watchcartoononline.com/thumbs/CatDog-Episode-1--Dog-Gone.jpg" style="border: 0"/>
+					</section>
+					
+					<section>
+						<h2>A data set can be</h2>
+						<ul>
+							<li>nominal</li>
+							<li>ordinal</li>
+							<li>interval</li>
+							<li>ratio</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Nominal data</h2>
+						<p>A set of data is said to be nominal if the observations can be assigned a label.</p>
+						<p>You can count but not order or measure nominal data.</p>
+
+						<ul>
+							<li class="fragment roll-in">Males could be coded as 0, Females as 1</li>
+							<li class="fragment roll-in">Marital status of an individual could be coded as Y if married, N if single</li>
+							<li class="fragment roll-in">Hair color</li>
+							<li class="fragment roll-in">Figure associated to a football player</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Ordinal data</h2>
+						<p>A set of data is said to be ordinal if the observations can be ranked.</p>
+						<p>You can count and order, but not measure, ordinal data.</p>
+
+						<ul>
+							<li class="fragment roll-in">First names using lexicographic ordering</li>
+							<li class="fragment roll-in">Scolarship ranks</li>
+							<li class="fragment roll-in">Satisfaction rating with a scale of 1 to 5, representing <em>strongly dislike</em>, <em>dislike</em>, <em>neutral</em>, <em>like</em>, <em>strongly like</em></li>
+						</ul>
+					</section>					
+					<section>
+						<h2>Ordinal data limitation</h2>
+						<p>The distinction between neighbouring points on the scale is not necessarily always the same.</p>
+						<div class="fragment roll-in" style="font-size: smaller">
+							<img src="images/ordinal-data-ruler.png" style="border: 0"/>
+							<p>Does the switch from <em>dislike</em> to <em>neutral</em> represent as much difference in enjoyment than the switch from <em>strongly dislike</em> to <em>dislike</em> ?</p>
+							<p class="fragment roll-in"><strong>You can't be sure!</strong></p>
+						</div>
+					</section>
+					
+					<section>
+						<h2>Interval data</h2>
+						<p>A set of data is said to be interval if the observations are ordinal and the distance between any two adjacents units of measurement (or 'intervals') is the same</p>
+						<p>You can count, order and measure (means and variances) but you cannot meaningfully multiply or divide.</p>
+						
+						<ul>
+							<li class="fragment roll-in">The time interval between the moment of your birth and when you were 2, is the same as the time interval between the birth of your father and when he vas 2.</li>
+							<li class="fragment roll-in">IQ</li>
+							<li class="fragment roll-in">Measurement of longitude</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Interval data limitation</h2>
+						<p>In interval data the zero point is arbitrary: the distance to zero is not meaningful. Therefore you cannot say that one value is twice another (cannot multiply nor divide).</p>
+						<div class="fragment roll-in" style="font-size: smaller">
+							<img src="images/interval-data-thermometer.png" style="border: 0"/>
+							<p>Is <em>18°C</em> three times warmer than <em>6°C</em>? <span class="fragment roll-in">What about <em>-6°C</em>?</span></p>
+							<p class="fragment roll-in"><em>18°C</em> is actually 1.04 times warmer than <em>6°C</em> and 1.08 times warmer than <em>-6°C</em> as absolute zero is -273.15°C</p>
+						</div> 
+					</section>
+					
+					<section>
+						<h2>Ratio data</h2>
+						<p>A set of data is said to be interval if the observations are interval and there is an absolute zero.</p>
+						<p>You can count, order and measure up to proportions (meaningful multiplication and division).</p>
+						
+						<ul>
+							<li class="fragment roll-in">Heights</li>
+							<li class="fragment roll-in">Weights</li>
+							<li class="fragment roll-in">Ages</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>R</h1>
+						<p>A very powerful tool to manipulate data... but a bit rough for rookies! So we'll use R Studio: an IDE for R.</p>
+						<ul>
+							<li><a href="http://www.rstudio.com/products/rstudio/download/">http://www.rstudio.com/products/rstudio/download/</a></li>
+							<li>You'll still need R from <a href="http://www.r-project.org/">r-project.org</a></li>
+						</ul>
+					</section>
+					
+					<section>
+						<img src="http://www.rstudio.com/wp-content/uploads/2014/04/rstudio-windows.png" class="stretch"/>
+					</section>
+					
+					<section>
+						<h2>Onboarding</h2>
+						<pre><code data-trim>
+# Setup of package UsingR
+install.packages("UsingR")
+library(UsingR)
+
+# Load Bootstrap sample from the Survey of Consumer Finances 
+data(cfb)
+?cfb
+
+# Compute some stats: mean, variance and standard deviation
+mean(cfb$INCOME)
+var(cfb$INCOME)
+sd(cfb$INCOME)
+						</code></pre>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Format is never right</h1>
+						<a href="https://xkcd.com/927/"><img src="http://imgs.xkcd.com/comics/standards.png" style="border: 0" /></a>
+					</section>
+					
+					<section>
+						<h2>Data</h2>
+						<p>Data from the OECD: <a href="http://stats.oecd.org/Index.aspx?lang=fr">stats.oecd.org</a></p>
+						<pre><code data-trim>
+# Loading data (use Import Dataset in RStudio)
+ocde <- read.csv("STLABOUR_17052015195851626.csv")
+
+# Describe the data
+describe(ocde)
+
+# View data
+View(ocde)
+						</code></pre>
+					</section>
+					
+					<section>
+						<h2>Accessing values</h2>
+						<p>A dataframe in R is made of <strong>variables</strong> and <strong>observations</strong>. Most likely: Variables are named while Observations are indexed.</p>
+						<pre><code data-trim>
+# List variables
+names(ocde)
+
+# List observations of third variable
+ocde$SUBJECT
+ocde[3]
+
+# Extract 500th observation of third variable
+ocde$SUBJECT[500]
+ocde[500,3]
+
+# Max value
+max(ocde$Value)
+						</code></pre>
+					</section>
+					<section>
+						<h2>Accessing values (advanced)</h2>
+						<p>You can operated more advanced selection of data using linear algebra.</p>
+						<pre><code data-trim>
+# All data regarding France
+ocde[ocde$Pays=="France",]
+
+# Only variable Value... then only 1st matching observation
+ocde[ocde$Pays=="France","Value"]
+ocde[ocde$Pays=="France","Value"][1]
+
+# Compute mean
+mean(ocde[ocde$Pays=="France","Value"])
+
+# Visualize values compared to mean
+plot(ocde[ocde$Pays=="France","Value"])
+abline(h=mean(ocde[ocde$Pays=="France","Value"]), col="blue")
+						</code></pre>
+					</section>
+					
+					<section>
+						<h2>Changing values</h2>
+						<p>The data loaded in R can be easily accessed but also easily edited.</p>
+						<pre><code data-trim>
+
+# Give a new name to the first variable
+names(ocde)[1] <- "LOCATION"
+
+						</code></pre>
+					</section>
+				</section>
+				
+				<section>
+					<h2>Some resources</h2>
+					<ul>
+						<li><a href="http://book.flowingdata.com/">Visualize this</a> and <a href="http://flowingdata.com/">FlowingData</a></li>
+						<li><a href="http://selection.datavisualization.ch/">datavisualization.ch</a></li>
+						<li><a href="http://www.stats.gla.ac.uk/steps/glossary/presenting_data.html">Statistics glossary of University of Glasgow</a></li>
+					</ul>
+				</section>
+			
+			</div>
+		
+		</div>
+		
+		<script src="reveal.js-3.0.0/lib/js/head.min.js"></script>
+		<script src="reveal.js-3.0.0/js/reveal.js"></script>
+
+		<script>
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } }					
+				]
+			});
+
+		</script>
+		
+	</body>
+</html>
