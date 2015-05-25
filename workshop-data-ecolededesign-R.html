@@ -193,6 +193,17 @@ var(cfb$INCOME)
 sd(cfb$INCOME)
 						</code></pre>
 					</section>
+					
+					<section>
+						<h2>Help</h2>
+						<img src="http://www.obilesky.com/wallpapers/allimg/c110528/130A42BT50Z-4V44.jpg" style="border:0"/>
+						<pre><code data-trim>
+# Help is around the corner
+?plot
+#... or google it with "r project" stuff
+						</code></pre>
+					</section>
+
 				</section>
 				
 				<section>
@@ -237,14 +248,14 @@ max(ocde$Value)
 					</section>
 					<section>
 						<h2>Accessing values (advanced)</h2>
-						<p>You can operated more advanced selection of data using linear algebra.</p>
+						<p>You can operate more advanced selection of data using linear algebra.</p>
 						<pre><code data-trim>
 # All data regarding France
 ocde[ocde$Pays=="France",]
 
-# Only variable Value... then only 1st matching observation
+# Only variable Value... then only 1st to 10th matching observation
 ocde[ocde$Pays=="France","Value"]
-ocde[ocde$Pays=="France","Value"][1]
+ocde[ocde$Pays=="France","Value"][1:10]
 
 # Compute mean
 mean(ocde[ocde$Pays=="France","Value"])
@@ -254,16 +265,160 @@ plot(ocde[ocde$Pays=="France","Value"])
 abline(h=mean(ocde[ocde$Pays=="France","Value"]), col="blue")
 						</code></pre>
 					</section>
-					
+										
 					<section>
-						<h2>Changing values</h2>
+						<h2>Changing data</h2>
 						<p>The data loaded in R can be easily accessed but also easily edited.</p>
 						<pre><code data-trim>
+# Replace ocde with the subset regarding France
+ocde <- ocde[ocde$Pays=="France",]
 
+# Remove the variable MEASURE that is not meaningful
+ocde$MEASURE <- NULL
+
+# Add a variable (beware the data structure)
+ocde$MA.VARIABLE <- rep(-1, 33) # -1 x Number of rows
+
+# Remove rows flagged with missing data
+dim(ocde[ocde$Flag.Code=="B",]) # 3 18
+ocde <- ocde[!(ocde$Flag.Code=="B"),]
+dim(ocde[ocde$Flag.Code=="B",]) # 0 18
+						</code></pre>
+					</section>
+					<section>
+						<h2>Changing data (2)</h2>
+						<p>The structure of the data can also be altered.</p>
+						<pre><code data-trim>
 # Give a new name to the first variable
 names(ocde)[1] <- "LOCATION"
 
+# Change a bunch of values
+length(ocde[ocde$LOCATION=="USA","Pays"]) # 36 x Ã‰tats-Unis
+ocde[ocde$LOCATION=="USA","Pays"] <- rep("Etats-Unis", 36)
+# Won't work because in this case values are factors
+
+# Right way is to alter levels of the factor
+levels(ocde$Pays)[1] <- "Etats-Unis"
 						</code></pre>
+					</section>
+					
+					<section>
+						<h2>Merging data</h2>
+						<p>Sometimes the data you need commes is several pieces you need to assemble.</p>
+						<pre><code data-trim>
+# Let's pretend
+ocde <- read.csv("ocde-stats-marche-du-travail-STLABOUR_17052015195851626.csv")
+vars <- c("SUBJECT","MEASURE","FREQUENCY","TIME","Unit","PowerCode.Code","Value","Flag.Codes")
+ocdeFR <- ocde[ocde$Pays=="France", vars]
+ocdeIT <- ocde[ocde$Pays=="Italie", vars]
+ocdeGE <- ocde[ocde$Pays=="Allemagne", vars]
+ocdeES <- ocde[ocde$Pays=="Espagne", vars]
+ocdeUK <- ocde[ocde$Pays=="Royaume-Uni", vars]
+ocdeTOT <- ocde[ocde$Pays=="OCDE - Total", vars]
+						</code></pre>
+					</section>
+					<section>
+						<h2>Merging data (2)</h2>
+						<pre><code data-trim>
+# We need to first add a variable to each dataset to store the country
+dim(ocdeFR) # 33 8
+ocdeFR$Country <- rep("FR", length(ocdeFR$Value))
+dim(ocdeFR) # 33 9
+...
+
+# And then we combine the frames
+merged <- rbind(ocdeFR, ocdeIT, ocdeGE, ocdeES, ocdeUK)
+						</code></pre>
+					</section>
+					<section>
+						<h2>Merging data (3)</h2>
+						<p>Let's give it a try:</p>
+						<ol>
+							<li>Search for the total population of each country (mind the date if possible)</li>
+							<li>Add the population information to the merged data</li>
+							<li>Compute the absolute values (from percentage to value as population number)</li>
+						</ol>
+					</section>
+					<section>
+						<h2>Merging data (4)</h2>
+						<p>These are not the answers you're looking for.</p>
+						<pre><code data-trim>
+# TODO: look for the data and add it as a variable 
+#       for each country (mind the date if possible)
+
+# Now compute absolute values
+merged$Value.absolute <- merged$Value * merged$Population
+						</code></pre>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Data is dirty: check for errors</h1>
+					</section>
+					
+					<section>
+						<h2>Visualize</h2>
+						<pre><code data-trim>
+plot(ocde$Value)
+						</code></pre>
+						<p>Look for suspicious dots!</p>
+					</section>
+					
+					<section>
+						<h2>Compute the distribution</h2>
+						<pre><code data-trim>
+# Histograms give you the values distribution
+hist(ocde$Value)
+
+# or plot density
+plot(density(ocde$Value))
+
+# Any difference between coutries ?
+plot(density(ocde$Value), col="red", lty="dashed")
+lines(density(ocde[ocde$Pays=="France", "Value"]), col="blue")
+lines(density(ocde[ocde$Pays=="Espagne", "Value"]), col="orange")
+						</code></pre>
+					</section>
+					
+					<section>
+						<h2>Box plot</h2>
+						<pre><code>
+# Draw the boxplot for values
+boxplot(oecd$Value) # everything between 0 and 100... good news
+
+# Per country
+boxplot(oecd$Value ~ oecd$Pays) 
+
+# Per subject
+boxplot(oecd$Value ~ oecd$SUBJECT)
+
+# Per period
+boxplot(oecd$Value ~ oecd$TIME)
+						</code></pre>
+						<p>Look for outliers in each case.</p>
+					</section>
+					
+					<section>
+						<h2>2015-Q1 is different... let's dig in</h2>
+						<pre><code>
+# Observe 2015-Q1 per country
+boxplot(oecd$Value[oecd$TIME == "2015-Q1"] ~ oecd$Pays[oecd$TIME == "2015-Q1"])
+
+# Data is missing!
+dim(oecd[oecd$TIME == "2014-Q4",]) # 114 19
+dim(oecd[oecd$TIME == "2015-Q1",]) # 24 19
+
+# => remove 2015-Q1
+oecd <- oecd[!(oecd$TIME == "2015-Q1"),]
+						</code></pre>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Information is revealed: it does not pop up</h1>
+						GO!
 					</section>
 				</section>
 				
